@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReFineWork - AI Content Blog</title>
+    <style>
+        :root {
+            --background: #121212;
+            --surface: #1e1e1e;
+            --primary: #6b46c1;
+            --primary-light: #9f7aea;
+            --text: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --accent: #7928ca;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--surface);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .site-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--primary-light);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0 4rem;
+            background: linear-gradient(to bottom right, rgba(107, 70, 193, 0.1), rgba(0, 0, 0, 0));
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .hero-text {
+            flex: 1;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-logo {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .large-logo {
+            width: 300px;
+            height: 300px;
+            background-color: var(--surface);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-inner {
+            width: 180px;
+            height: 180px;
+            background-color: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo-glow {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(159, 122, 234, 0.4) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            animation: pulse 4s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+        }
+        
+        /* Featured Section */
+        .featured {
+            padding: 5rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            height: 4px;
+            width: 60px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .blog-card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-image {
+            height: 200px;
+            background-color: #2d2d2d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            background-color: rgba(107, 70, 193, 0.2);
+            color: var(--primary-light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+        
+        .card-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 5rem 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            margin-bottom: 5rem;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .category-card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(107, 70, 193, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            color: var(--primary-light);
+        }
+        
+        .category-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-count {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Newsletter Section */
+        .newsletter {
+            padding: 5rem 0;
+            background-color: var(--surface);
+            border-radius: 20px;
+            margin-bottom: 5rem;
+        }
+        
+        .newsletter-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .newsletter-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .newsletter-input:focus {
+            outline: 2px solid var(--primary-light);
+        }
+        
+        .newsletter-button {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .newsletter-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .newsletter-notice {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--surface);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .footer-brand {
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: rgba(107, 70, 193, 0.2);
+        }
+        
+        .copyright {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo-container">
+                <div class="logo">R</div>
+                <div class="site-name">ReFineWork</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Trending</a></li>
+                <li><a href="#">Recent</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Discover the Future of AI Technology</h1>
+                <p class="hero-subtitle">ReFineWork provides the latest insights, trends, and deep dives into artificial intelligence. Stay ahead of the curve with our expert content on emerging AI technologies, tools, and applications.</p>
+                <a href="#" class="hero-cta">Explore Articles</a>
+            </div>
+            <div class="hero-logo">
+                <div class="large-logo">
+                    <div class="logo-glow"></div>
+                    <div class="logo-inner">R</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Posts Section -->
+    <section class="featured">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Featured Articles</h2>
+                <p class="section-subtitle">Discover our most popular content on artificial intelligence, machine learning, and emerging technologies.</p>
+            </div>
+            <div class="blog-grid">
+                <!-- Blog Card 1 -->
+                <div class="blog-card">
+                    <div class="card-image">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">Machine Learning</span>
+                        <h3 class="card-title">The Future of Generative AI: What's Next After GPT-4?</h3>
+                        <p class="card-excerpt">Exploring the upcoming advancements in generative AI models and their potential impact on various industries.</p>
+                        <div class="card-meta">
+                            <span>April 5, 2025</span>
+                            <span>8 min read</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Card 2 -->
+                <div class="blog-card">
+                    <div class="card-image">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">AI Ethics</span>
+                        <h3 class="card-title">Ethical Frameworks for Responsible AI Development</h3>
+                        <p class="card-excerpt">A comprehensive guide to building ethical considerations into AI systems from the ground up.</p>
+                        <div class="card-meta">
+                            <span>April 2, 2025</span>
+                            <span>10 min read</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Card 3 -->
+                <div class="blog-card">
+                    <div class="card-image">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">Data Science</span>
+                        <h3 class="card-title">Advanced Data Processing Techniques for AI Models</h3>
+                        <p class="card-excerpt">Learn how modern data processing pipelines are evolving to handle increasingly complex AI systems.</p>
+                        <div class="card-meta">
+                            <span>March 28, 2025</span>
+                            <span>12 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Posts Section -->
+    <section class="featured">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Recent Posts</h2>
+                <p class="section-subtitle">Stay up to date with our latest articles and insights on AI technologies and developments.</p>
+            </div>
+            <div class="blog-grid">
+                <!-- Blog Card 1 -->
+                <div class="blog-card">
+                    <div class="card-image">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">AI Applications</span>
+                        <h3 class="card-title">How AI is Transforming Healthcare Diagnostics</h3>
+                        <p class="card-excerpt">Discover how artificial intelligence is revolutionizing disease detection and patient care worldwide.</p>
+                        <div class="card-meta">
+                            <span>April 8, 2025</span>
+                            <span>7 min read</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Card 2 -->
+                <div class="blog-card">
+                    <div class="card-image">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">Computer Vision</span>
+                        <h3 class="card-title">Latest Breakthroughs in Computer Vision Technology</h3>
+                        <p class="card-excerpt">Exploring recent advancements in computer vision and their real-world applications.</p>
+                        <div class="card-meta">
+                            <span>April 7, 2025</span>
+                            <span>9 min read</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Card 3 -->
+                <div class="blog-card">
+                    <div class="card-image">
+                        <img src="/api/placeholder/400/320" alt="placeholder" />
+                    </div>
+                    <div class="card-content">
+                        <span class="card-tag">Natural Language Processing</span>
+                        <h3 class="card-title">Understanding Large Language Models: A Deep Dive</h3>
+                        <p class="card-excerpt">A comprehensive look at how large language models work and why they're changing everything.</p>
+                        <div class="card-meta">
+                            <span>April 6, 2025</span>
+                            <span>11 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explore Categories</h2>
+                <p class="section-subtitle">Browse our content by topic to find exactly what you're looking for.</p>
+            </div>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">ML</div>
+                    <h3 class="category-title">Machine Learning</h3>
+                    <p class="category-count">24 articles</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">CV</div>
+                    <h3 class="category-title">Computer Vision</h3>
+                    <p class="category-count">18 articles</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">NLP</div>
+                    <h3 class="category-title">Natural Language</h3>
+                    <p class="category-count">29 articles</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">ET</div>
+                    <h3 class="category-title">Ethics</h3>
+                    <p class="category-count">15 articles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container newsletter-container">
+            <h2 class="newsletter-title">Stay Updated</h2>
+            <p class="newsletter-description">Subscribe to our newsletter to receive the latest articles, news, and updates about AI technology straight to your inbox.</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address">
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+            <p class="newsletter-notice">We respect your privacy. Unsubscribe at any time.</p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <div class="footer-brand">
+                        <div class="logo-container">
+                            <div class="logo">R</div>
+                            <div class="site-name">ReFineWork</div>
+                        </div>
+                    </div>
+                    <p>ReFineWork is your premier source for high-quality content on artificial intelligence, machine learning, and emerging technologies.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon">X</a>
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">IG</a>
+                        <a href="#" class="social-icon">LI</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Machine Learning</a></li>
+                        <li><a href="#">Computer Vision</a></li>
+                        <li><a href="#">Natural Language</a></li>
+                        <li><a href="#">AI Ethics</a></li>
+                        <li><a href="#">Data Science</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Contact</h3>
+                    <ul class="footer-links">
+                        <li>Email: info@refinework.com</li>
+                        <li>Phone: +1 (555) 123-4567</li>
+                        <li>Address: Tech Hub, 123 AI Street, San Francisco, CA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 ReFineWork. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
